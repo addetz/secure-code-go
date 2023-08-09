@@ -8,10 +8,20 @@ Certificates & keys can be easily generated for local testing with [`mkcert`](ht
 export SERVER_CERT_FILE="localhost.pem"
 export SERVER_KEY_FILE="localhost-key.pem"
 export SERVER_PORT="1232"
+export SIGNING_KEY="SUPER-DUPER-SECRET"
 ```
 
 ## Execute demos
-Run the demo servers one by one: 
+Run the demo servers one by one. Each demo builds upon the previous one.
+
+### Demo 1: Server with HTTPS
 ```bash
 go run demo1/server.go
 ```
+
+### Demo 2: Server with JWT
+```bash
+go run demo2/server.go
+```
+
+
