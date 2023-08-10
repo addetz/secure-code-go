@@ -10,6 +10,9 @@ import (
 )
 
 func TestRouterHTTP(t *testing.T) {
+	if os.Getenv("E2E") == "" {
+		t.Skip("Skipping TestRouterHTTP in short mode.")
+	}
 	// Send an HTTP request
 	port := readPort()
 	resp, err := http.Get(fmt.Sprintf("http://localhost:%s", port))
@@ -20,6 +23,9 @@ func TestRouterHTTP(t *testing.T) {
 }
 
 func TestRouterHTTPS(t *testing.T) {
+	if os.Getenv("E2E") == "" {
+		t.Skip("Skipping TestRouterHTTPS in short mode.")
+	}
 	// Send an HTTPS request
 	port := readPort()
 	resp, err := http.Get(fmt.Sprintf("https://localhost:%s", port))
@@ -30,6 +36,7 @@ func TestRouterHTTPS(t *testing.T) {
 }
 
 func readPort() string {
+
 	port, ok := os.LookupEnv("SERVER_PORT")
 	if !ok {
 		return "1232"

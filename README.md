@@ -24,4 +24,9 @@ go run demo1/server.go
 go run demo2/server.go
 ```
 
+### Demo 3: Server with access control checks
+```bash
+go run demo3/server.go
+```
+
 
