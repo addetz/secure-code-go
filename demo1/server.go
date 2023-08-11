@@ -49,7 +49,7 @@ func main() {
 	// Set up the root route
 	e.GET("/", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, &Response{
-			Message: "Hello, Gophers!",
+			Message: "Hello, Gophers!\nGlad to see You there!",
 		})
 	})
 
