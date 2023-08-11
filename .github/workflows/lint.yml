@@ -1,0 +1,10 @@
+on:
+  workflow_call:
+  
+jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    name: lint
+    steps:
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v3.6.0
