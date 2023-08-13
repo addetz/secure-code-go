@@ -9,6 +9,9 @@ export SERVER_CERT_FILE="localhost.pem"
 export SERVER_KEY_FILE="localhost-key.pem"
 export SERVER_PORT="1232"
 export SIGNING_KEY="SUPER-DUPER-SECRET"
+export POSTGRES_USER="SECRET-USER"
+export POSTGRES_PWD="MY-SUPER-DUPER-SECRET-DB-PWD"
+export POSTGRES_DB="postgresDBDemo4"
 ```
 
 ## Execute demos
@@ -28,5 +31,20 @@ go run demo2/server.go
 ```bash
 go run demo3/server.go
 ```
+### Demo 4: Server with SQL database
+This last demo requires Postgres to run locally. The easiest way to do this is through Docker: 
+```bash 
+docker run \
+    --name demo4DB \
+    -p 5432:5432 \
+    -e POSTGRES_USER=$POSTGRES_USER \
+    -e POSTGRES_PASSWORD=$POSTGRES_PWD \
+    -e POSTGRES_DB=$POSTGRES_DB \
+    -d \
+    postgres
+```
 
-
+Then, run the demo as previously: 
+```bash
+go run demo4/server.go
+```
