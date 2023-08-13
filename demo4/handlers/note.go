@@ -51,7 +51,9 @@ func (authService *UserAuthService) AddUserNote(c echo.Context) error {
 	}
 
 	//add the note
-	authService.secretNotesService.Add(paramName, *newNote)
+	if err := authService.secretNotesService.Add(paramName, *newNote); err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err)
+	}
 	secretNotes, err := authService.secretNotesService.GetAll(paramName)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err)
