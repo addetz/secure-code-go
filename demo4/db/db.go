@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"log"
 )
 
 type User struct {
@@ -32,12 +33,14 @@ func NewDatabaseService(db *sql.DB) *dbService {
 
 // AddUser creates a new user in the DB
 func (ds *dbService) AddUser(username, pwd string) error {
-	stmt, err := ds.db.Prepare("INSERT INTO users(username, pwd) VALUES(?, ?)")
+	stmt, err := ds.db.Prepare("INSERT INTO users (username, pwd) VALUES( $1, $2 )")
 	if err != nil {
+		log.Println("error1", err)
 		return err
 	}
 	defer stmt.Close()
 	if _, err := stmt.Exec(username, pwd); err != nil {
+		log.Println("error2", err)
 		return err
 	}
 	return nil
@@ -45,21 +48,23 @@ func (ds *dbService) AddUser(username, pwd string) error {
 
 // GetUser returns a user from the database or an error if none exists.
 func (ds *dbService) GetUser(username string) (*User, error) {
-	user := new(User)
-	stmt, err := ds.db.Prepare("SELECT * FROM users WHERE username = ?")
+	var user User
+	stmt, err := ds.db.Prepare("SELECT * FROM users WHERE username = $1 ")
 	if err != nil {
+		log.Println("error3", err)
 		return nil, err
 	}
 	defer stmt.Close()
-	if err := stmt.QueryRow(username).Scan(user.Username, user.Pwd); err != nil {
+	if err := stmt.QueryRow(username).Scan(&user.Username, &user.Pwd); err != nil {
+		log.Println("error4", err)
 		return nil, err
 	}
-	return user, nil
+	return &user, nil
 }
 
 // AddNote creates a new note in the DB
 func (ds *dbService) AddNote(id, username, text string) error {
-	stmt, err := ds.db.Prepare("INSERT INTO notes(id, username, noteText) VALUES(?, ?, ?)")
+	stmt, err := ds.db.Prepare("INSERT INTO notes(id, username, noteText) VALUES($1, $2, $3)")
 	if err != nil {
 		return err
 	}
@@ -73,7 +78,7 @@ func (ds *dbService) AddNote(id, username, text string) error {
 // GetUserNotes returns all the notes of a given user from the database or an error.
 func (ds *dbService) GetUserNotes(username string) ([]Note, error) {
 	var notes []Note
-	stmt, err := ds.db.Prepare("SELECT * FROM notes WHERE username = ?")
+	stmt, err := ds.db.Prepare("SELECT * FROM notes WHERE username = $1")
 	if err != nil {
 		return nil, err
 	}

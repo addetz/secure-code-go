@@ -131,12 +131,23 @@ func connectDatabase() *sql.DB {
 	if !ok {
 		log.Fatal("POSTGRES_DB variable must be set")
 	}
-	connectionStr := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", user, pwd, db)
 
+	connectionStr := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", user, pwd, db)
 	conn, err := sql.Open("postgres", connectionStr)
 	if err != nil {
 		log.Fatal("connection error", err)
 	}
-
+	if err := conn.Ping(); err != nil {
+		log.Fatal("ping error", err)
+	}
+	_, err = conn.Exec("CREATE TABLE IF NOT EXISTS users (username VARCHAR(50) PRIMARY KEY, pwd VARCHAR(100) NOT NULL)")
+	if err != nil {
+		log.Fatal("create users", err)
+	}
+	_, err = conn.Exec("CREATE TABLE IF NOT EXISTS notes ( id VARCHAR (50) PRIMARY KEY," +
+		"username VARCHAR(50) REFERENCES users (username), noteText VARCHAR (500) NOT NULL)")
+	if err != nil {
+		panic(err)
+	}
 	return conn
 }

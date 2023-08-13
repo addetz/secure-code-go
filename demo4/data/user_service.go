@@ -48,7 +48,7 @@ func (us *UserService) Add(name, password string) error {
 func (us *UserService) ValidatePassword(name, providedPwd string) error {
 	user, err := us.dbService.GetUser(name)
 	if err != nil {
-		return errors.New("user does not exist")
+		return errors.Wrap(err, "user does not exist")
 	}
 	return bcrypt.CompareHashAndPassword([]byte(user.Pwd), []byte(providedPwd))
 }
