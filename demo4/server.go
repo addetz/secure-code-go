@@ -15,6 +15,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	echo "github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	_ "github.com/lib/pq"
 )
 
 const TIMEOUT = 3 * time.Second
@@ -112,7 +113,7 @@ func main() {
 func readPort() string {
 	port, ok := os.LookupEnv("SERVER_PORT")
 	if !ok {
-		return "1232"
+		return "1323"
 	}
 	return port
 }

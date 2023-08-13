@@ -94,7 +94,7 @@ func main() {
 func readPort() string {
 	port, ok := os.LookupEnv("SERVER_PORT")
 	if !ok {
-		return "1232"
+		return "1323"
 	}
 	return port
 }

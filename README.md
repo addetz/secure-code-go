@@ -7,7 +7,7 @@ Certificates & keys can be easily generated for local testing with [`mkcert`](ht
 ```bash
 export SERVER_CERT_FILE="localhost.pem"
 export SERVER_KEY_FILE="localhost-key.pem"
-export SERVER_PORT="1232"
+export SERVER_PORT="1323"
 export SIGNING_KEY="SUPER-DUPER-SECRET"
 export POSTGRES_USER="SECRET-USER"
 export POSTGRES_PWD="MY-SUPER-DUPER-SECRET-DB-PWD"
