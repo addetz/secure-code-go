@@ -4,13 +4,16 @@ go 1.18
 
 require (
 	github.com/labstack/echo/v4 v4.11.1
-	github.com/stretchr/testify v1.8.1
+	github.com/stretchr/testify v1.8.4
 )
+
+require github.com/stretchr/objx v0.5.0 // indirect
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang-jwt/jwt/v5 v5.0.0
+	github.com/google/uuid v1.3.0
 	github.com/labstack/echo-jwt/v4 v4.2.0
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
