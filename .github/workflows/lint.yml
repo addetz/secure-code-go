@@ -1,0 +1,34 @@
+name: golangci-lint
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+  # Optional: allow read access to pull request. Use with `only-new-issues` option.
+  # pull-requests: read
+
+jobs:
+  golangci:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+          cache: false
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.53
+        # By default we have below linters set up:
+        # errcheck - checking for any unchecked errors in our code
+        # gosimple - checking if the code can be simplified
+        # govet - reports suspicious constructs
+        # ineffassign - detects when assignments to variables are not used
+        # staticcheck - swiss-army knife, checks for bugs, performance issues and more
+        # unused - checks for unused constants, variables, functions and types
