@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"time"
@@ -104,12 +105,11 @@ func main() {
 		return userAuthService.AddUserNote(c)
 	})
 
-	// we're not checking an error here,
-	// so even our IDE is mad
-	str, _ := stringAndError()
+	names := []string{"John", "Steven", "Arthur", "Sebastien", "Joseph"}
 
-	// this error will never be checked
-	defer onlyError()
+	name := fmt.Sprintf("%s", names[rand.Intn(len(names))])
+
+	fmt.Printf("Hello, %s!", name)
 
 	log.Printf("Listening on :%s...\n", port)
 	if err := s.ListenAndServeTLS(certFile, keyFile); err != http.ErrServerClosed {
@@ -141,8 +141,7 @@ func connectDatabase() *sql.DB {
 	}
 	pwd, ok := os.LookupEnv("POSTGRES_PWD")
 	if !ok {
-		pwd = "THISISMYSUPERSECRETPASSWORD"
-		// log.Fatal("POSTGRES_PWD variable must be set")
+		log.Fatal("POSTGRES_PWD variable must be set")
 	}
 	db, ok := os.LookupEnv("POSTGRES_DB")
 	if !ok {
