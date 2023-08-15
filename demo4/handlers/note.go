@@ -50,7 +50,7 @@ func (authService *UserAuthService) AddUserNote(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
 
-	//add the note
+	// add the note
 	if err := authService.secretNotesService.Add(paramName, *newNote); err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err)
 	}

@@ -36,7 +36,6 @@ func TestRouterHTTPS(t *testing.T) {
 }
 
 func readPort() string {
-
 	port, ok := os.LookupEnv("SERVER_PORT")
 	if !ok {
 		return "1323"
