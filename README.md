@@ -1,5 +1,5 @@
 # secure-code-go
-Demo repository for the talk ["The shimmy to the left: why security is coming for engineers"](https://www.gophercon.co.uk/schedule/)
+Demo repository for the talk ["The shimmy to the left: why security is coming for engineers"](https://www.gophercon.co.uk/schedule/). You can find the slides [here](./slides).
 
 ## Environment variables
 Certificates & keys can be easily generated for local testing with [`mkcert`](https://github.com/FiloSottile/mkcert). 
