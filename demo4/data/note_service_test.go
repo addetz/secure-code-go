@@ -39,14 +39,14 @@ func TestGetAllNotes(t *testing.T) {
 		user := "user1"
 		dbNotes := []db.Note{
 			{
-				ID: uuid.New().String(),
+				ID:       uuid.New().String(),
 				Username: user,
-				Text: "My first note",
+				Text:     "My first note",
 			},
 			{
-				ID: uuid.New().String(),
+				ID:       uuid.New().String(),
 				Username: user,
-				Text: "My second note",
+				Text:     "My second note",
 			},
 		}
 		mockDB := new(mocks.DatabaseServiceMock)

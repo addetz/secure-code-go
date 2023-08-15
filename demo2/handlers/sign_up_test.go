@@ -11,7 +11,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-
 func TestSignUp(t *testing.T) {
 	successfulUser := `{"username":"user1","password":"potato-cheese-entropy-romania"}`
 

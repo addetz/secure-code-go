@@ -18,7 +18,7 @@ import (
 func TestLogin(t *testing.T) {
 	password := "potato-cheese-entropy-romania"
 	username := "user1"
-	successfulUser := fmt.Sprintf(`{"username":"%s","password":"%s"}`,username, password) 
+	successfulUser := fmt.Sprintf(`{"username":"%s","password":"%s"}`, username, password)
 	expected, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
 	// Setup
@@ -27,7 +27,7 @@ func TestLogin(t *testing.T) {
 	userAuthService := handlers.NewUserAuthService("testing-signing-key", mockDB)
 	mockDB.On("GetUser", username).Return(&db.User{
 		Username: username,
-		Pwd: string(expected),
+		Pwd:      string(expected),
 	}, nil)
 
 	// Login

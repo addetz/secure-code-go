@@ -9,7 +9,7 @@ import (
 
 const minEntropyBits = 60
 
-// UserService holds 
+// UserService holds users
 type UserService struct {
 	users map[string][]byte
 }
@@ -21,7 +21,7 @@ func NewUserService() *UserService {
 	}
 }
 
-// Add validates a user password and creates a new user. 
+// Add validates a user password and creates a new user.
 func (us *UserService) Add(name, password string) error {
 	_, ok := us.users[name]
 	if ok {
@@ -50,7 +50,7 @@ func (us *UserService) ValidatePassword(name, providedPwd string) error {
 	return bcrypt.CompareHashAndPassword(hashedPassword, []byte(providedPwd))
 }
 
-// ValidateUser checks the provided username belongs to an existing user. 
+// ValidateUser checks the provided username belongs to an existing user.
 func (us *UserService) ValidateUser(name string) error {
 	_, ok := us.users[name]
 	if !ok {
