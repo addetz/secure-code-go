@@ -132,7 +132,7 @@ func connectDatabase() *sql.DB {
 		log.Fatal("POSTGRES_DB variable must be set")
 	}
 
-	connectionStr := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", user, pwd, db)
+	connectionStr := fmt.Sprintf("user=%s password=%s dbname=%s", user, pwd, db)
 	conn, err := sql.Open("postgres", connectionStr)
 	if err != nil {
 		log.Fatal("connection error", err)

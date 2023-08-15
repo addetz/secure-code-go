@@ -41,7 +41,10 @@ docker run \
     -e POSTGRES_PASSWORD=$POSTGRES_PWD \
     -e POSTGRES_DB=$POSTGRES_DB \
     -d \
-    postgres
+    postgres \
+    -c ssl=on \
+    -c ssl_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem \
+    -c ssl_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
 ```
 
 Then, run the demo as previously: 

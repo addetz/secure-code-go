@@ -1,0 +1,47 @@
+GET https://localhost:1323
+
+###
+# @name newUserSignUp
+POST https://localhost:1323/signup
+Content-Type: application/json
+
+{
+    "username":"addetz",
+    "password":"purple-puffin-123"
+}
+
+###
+# @name userLogin
+POST https://localhost:1323/login
+Content-Type: application/json
+
+{
+    "username":"addetz",
+    "password":"purple-puffin-123"
+}
+
+### 
+# @name restrictedPath
+@jwt = {{userLogin.response.body.token}}
+GET https://localhost:1323/restricted
+Authorization: Bearer {{jwt}}
+
+### 
+# @name addSecretNote
+@user = {{userLogin.request.body.username}}
+@jwt = {{userLogin.response.body.token}}
+POST https://localhost:1323/restricted/secretNotes/{{user}}
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+{
+    "username":"{{user}}",
+    "text":"I'm excited to be at GopherCon again!"
+}
+
+### 
+# @name getSecretNotes
+@user = {{userLogin.request.body.username}}
+@jwt = {{userLogin.response.body.token}}
+GET https://localhost:1323/restricted/secretNotes/{{user}}
+Authorization: Bearer {{jwt}}
