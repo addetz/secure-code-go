@@ -37,11 +37,12 @@ func TestNotes(t *testing.T) {
 	t.Run("successful add note", func(t *testing.T) {
 		newNote := `{"text":"my super duper secret"}`
 		req := httptest.NewRequest(http.MethodPost, fmt.Sprintf("/secretNotes/%s", username), strings.NewReader(newNote))
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		req.Header.Set(echo.HeaderAuthorization, fmt.Sprintf("Bearer %s", token.Token))
 		res := httptest.NewRecorder()
 		e.ServeHTTP(res, req)
 
-		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, http.StatusCreated, res.Code)
 		assert.Contains(t, res.Body.String(), username)
 		assert.Contains(t, res.Body.String(), "my super duper secret")
 	})
@@ -49,11 +50,12 @@ func TestNotes(t *testing.T) {
 	t.Run("successful get notes", func(t *testing.T) {
 		newNote := `{"text":"my super duper secret"}`
 		reqPost := httptest.NewRequest(http.MethodPost, fmt.Sprintf("/secretNotes/%s", username), strings.NewReader(newNote))
+		reqPost.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		reqPost.Header.Set(echo.HeaderAuthorization, fmt.Sprintf("Bearer %s", token.Token))
 		resPost := httptest.NewRecorder()
 		e.ServeHTTP(resPost, reqPost)
 
-		assert.Equal(t, http.StatusOK, resPost.Code)
+		assert.Equal(t, http.StatusCreated, resPost.Code)
 		assert.Contains(t, resPost.Body.String(), username)
 		assert.Contains(t, resPost.Body.String(), "my super duper secret")
 

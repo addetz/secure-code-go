@@ -1,6 +1,6 @@
 module github.com/addetz/secure-code-go
 
-go 1.18
+go 1.21
 
 require (
 	github.com/labstack/echo/v4 v4.11.1
