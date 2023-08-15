@@ -35,16 +35,30 @@ func NewDatabaseService(db *sql.DB) *dbService {
 
 // AddUser creates a new user in the DB
 func (ds *dbService) AddUser(username, pwd string) error {
-	stmt, err := ds.db.Prepare("INSERT INTO users (username, pwd) VALUES( $1, $2 )")
+	// let's assume, the username can only contain lowercase, ASCII chars, no numbers and be shorter than 10 chars
+	err := validate(username)
 	if err != nil {
-		log.Println("error1", err)
 		return err
 	}
-	defer stmt.Close()
-	if _, err := stmt.Exec(username, pwd); err != nil {
-		log.Println("error2", err)
+
+	tx, err := ds.db.Begin()
+	if err != nil {
 		return err
 	}
+
+	defer func() {
+		switch err {
+		case nil:
+			err = tx.Commit()
+		default:
+			tx.Rollback()
+		}
+	}()
+
+	if _, err = tx.Exec("INSERT INTO users (username, pwd) VALUES(?, ?)", username, pwd); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -66,12 +80,6 @@ func (ds *dbService) GetUser(username string) (*User, error) {
 
 // AddNote creates a new note in the DB
 func (ds *dbService) AddNote(id, username, text string) error {
-	// let's assume, the note's ID can only contain lowercase, ASCII chars, no numbers and be shorter than 10 chars
-	err := validateID(id)
-	if err != nil {
-		return err
-	}
-
 	stmt, err := ds.db.Prepare("INSERT INTO notes(id, username, noteText) VALUES($1, $2, $3)")
 	if err != nil {
 		return err
@@ -83,18 +91,18 @@ func (ds *dbService) AddNote(id, username, text string) error {
 	return nil
 }
 
-func validateID(id string) error {
-	for _, r := range id {
+func validate(str string) error {
+	for _, r := range str {
 		if unicode.IsUpper(r) {
-			return fmt.Errorf("id contains uppercase: %v", string(r))
+			return fmt.Errorf("contains uppercase: %v", string(r))
 		}
 
 		if unicode.IsNumber(r) {
-			return fmt.Errorf("id contains number: %v", string(r))
+			return fmt.Errorf("contains number: %v", string(r))
 		}
 
 		if r > unicode.MaxASCII {
-			return fmt.Errorf("id contains non-ASCII char: %v", r)
+			return fmt.Errorf("contains non-ASCII char: %v", r)
 		}
 	}
 
