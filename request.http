@@ -45,3 +45,20 @@ Authorization: Bearer {{jwt}}
 @jwt = {{userLogin.response.body.token}}
 GET https://localhost:1323/restricted/secretNotes/{{user}}
 Authorization: Bearer {{jwt}}
+
+###
+# @name hackerSignup
+POST https://localhost:1323/signup
+Content-Type: application/json
+
+{
+    "username":"hacker",
+    "password":"gimme-notes-mwahaha-1234"
+}
+
+### 
+# @name getSecretNotes
+@user = {{userLogin.request.body.username}}
+@hacker_jwt = {{hackerSignup.response.body.token}}
+GET https://localhost:1323/restricted/secretNotes/{{user}}
+Authorization: Bearer {{hacker_jwt}}
